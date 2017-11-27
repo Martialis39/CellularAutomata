@@ -1,24 +1,101 @@
 let GRID = [];
 let main = document.querySelector("#main");
+let ruleName = document.querySelector("#ruleNumber");
 function Cell(x, y) {
 	this.x = x;
 	this.y = y;
-	this.active = 0;
 	this.DOMElement = document.createElement("div");
 }
-let rules = [
-	// First three are rules.
-	// final item is current cell
+
+function randomNumber(upper_limit) {
+	return (num = Math.floor(Math.random() * upper_limit) + 0);
+}
+
+const automata = [
+	// First three ints in rules arrays are rules.
+	// Final item in each array is what current cell should be set to
 	//1 is active, 0 is inactive
-	[1, 1, 1, 0],
-	[1, 1, 0, 0],
-	[1, 0, 1, 1],
-	[1, 0, 0, 1],
-	[0, 1, 1, 1],
-	[0, 1, 0, 0],
-	[0, 0, 1, 0],
-	[0, 0, 0, 1]
+
+	{
+		name: "Rule 57",
+		rules: [
+			[1, 1, 1, 0],
+			[1, 1, 0, 0],
+			[1, 0, 1, 1],
+			[1, 0, 0, 1],
+			[0, 1, 1, 1],
+			[0, 1, 0, 0],
+			[0, 0, 1, 0],
+			[0, 0, 0, 1]
+		]
+	},
+	{
+		name: "Rule 225",
+		rules: [
+			[1, 1, 1, 1],
+			[1, 1, 0, 1],
+			[1, 0, 1, 1],
+			[1, 0, 0, 0],
+			[0, 1, 1, 0],
+			[0, 1, 0, 0],
+			[0, 0, 1, 0],
+			[0, 0, 0, 1]
+		]
+	},
+	{
+		name: "Rule 86",
+		rules: [
+			[1, 1, 1, 0],
+			[1, 1, 0, 1],
+			[1, 0, 1, 0],
+			[1, 0, 0, 1],
+			[0, 1, 1, 0],
+			[0, 1, 0, 1],
+			[0, 0, 1, 1],
+			[0, 0, 0, 0]
+		]
+	},
+	{
+		name: "Rule 129",
+		rules: [
+			[1, 1, 1, 1],
+			[1, 1, 0, 0],
+			[1, 0, 1, 0],
+			[1, 0, 0, 0],
+			[0, 1, 1, 0],
+			[0, 1, 0, 0],
+			[0, 0, 1, 0],
+			[0, 0, 0, 1]
+		]
+	},
+	{
+		name: "Rule 62",
+		rules: [
+			[1, 1, 1, 0],
+			[1, 1, 0, 0],
+			[1, 0, 1, 1],
+			[1, 0, 0, 1],
+			[0, 1, 1, 1],
+			[0, 1, 0, 1],
+			[0, 0, 1, 1],
+			[0, 0, 0, 0]
+		]
+	},
+	{
+		name: "Rule 94",
+		rules: [
+			[1, 1, 1, 0],
+			[1, 1, 0, 1],
+			[1, 0, 1, 0],
+			[1, 0, 0, 1],
+			[0, 1, 1, 1],
+			[0, 1, 0, 1],
+			[0, 0, 1, 1],
+			[0, 0, 0, 0]
+		]
+	}
 ];
+let randNum = randomNumber(automata.length);
 function populateGrid(grid) {
 	for (var i = 0; i < 100; i++) {
 		GRID[i] = new Array(100);
@@ -57,7 +134,7 @@ function processGrid() {
 			let prevRight = GRID[i - 1][j + 1] || GRID[i - 1][0];
 			// debugger;
 			checkRules(
-				rules,
+				automata[randNum].rules,
 				prevLeft.DOMElement,
 				prevSelf.DOMElement,
 				prevRight.DOMElement,
@@ -68,7 +145,7 @@ function processGrid() {
 }
 
 function checkRules(rulesArray, pLeft, pSelf, pRight, current) {
-	rules.forEach(function(rule) {
+	rulesArray.forEach(function(rule) {
 		if (
 			rule[0] == isActive(pLeft) &&
 			rule[1] == isActive(pSelf) &&
@@ -79,7 +156,8 @@ function checkRules(rulesArray, pLeft, pSelf, pRight, current) {
 	});
 }
 populateGrid(GRID);
-GRID[0][49].DOMElement.classList.add("active");
+let randomStart = randomNumber(GRID[0].length - 1);
+GRID[0][randomStart].DOMElement.classList.add("active");
 
 processGrid();
-console.log(GRID);
+ruleName.textContent = automata[randNum].name;

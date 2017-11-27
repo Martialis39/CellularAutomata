@@ -2,11 +2,16 @@ html,
 body {
   font-family: monospace;
   box-sizing: border-box;
-  background: CornflowerBlue; }
+  background: CornflowerBlue;
+  font-size: 62.5%; }
 
 .main-container {
   width: 600px;
   margin: 0 auto; }
+  .main-container h2 {
+    font-size: 4rem; }
+  .main-container p {
+    font-size: 1.7rem; }
 
 #main {
   width: 600px;
